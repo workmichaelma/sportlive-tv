@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "sportlive-tv",
+    "name": "睇波",
     "slug": "sportlive-tv",
     "version": "1.0.0",
+    // "orientation": "landscape",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,12 +22,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.workmichaelma.sportlivetv",
+      "useNextNotificationsApi": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     }
   }
 }
