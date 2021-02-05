@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { AppState, StyleSheet, Text, ScrollView, View } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 import { isArray, isEmpty } from 'lodash'
@@ -11,7 +11,7 @@ import Player from './Player';
 const url = 'https://ds04s2074b.execute-api.ap-east-1.amazonaws.com/api/heibai'
 
 const style = StyleSheet.create({
-  empty: {
+  alert: {
     flex: 1,
     height: 500,
     justifyContent: 'center',
@@ -27,12 +27,38 @@ const style = StyleSheet.create({
 const IndexPage = () => {
   const [matches, setMatches] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const appState = useRef(AppState.currentState)
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      fetchMatches()
+    } else {
+      setMatches([])
+      setPlayer({
+        visible: false,
+        match: {}
+      })
+    }
+    appState.current = nextAppState;
+  };
+
+  useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
 
   const [player, setPlayer] = useState({
     visible: false,
     match: {},
   })
   const fetchMatches = () => {
+    setIsLoading(true)
+    setMatches([])
     axios.get(url).then(({ data }) => {
       setIsLoading(false)
       if (isArray(data) && !isEmpty(data)) {
@@ -48,12 +74,23 @@ const IndexPage = () => {
 
   return (
     <PaperProvider>
-      {isEmpty(matches) && !isLoading &&
-        <View style={style.empty}>
-          <Text style={{ fontSize: 24 }}>
-            最近沒有比賽
-          </Text>
-        </View>
+      {
+        isEmpty(matches) && !isLoading && (
+          <View style={style.alert}>
+            <Text style={{ fontSize: 24 }}>
+              最近沒有比賽
+            </Text>
+          </View>
+        )
+      }
+      {
+        isLoading && (
+          <View style={style.alert}>
+            <Text style={{ fontSize: 24 }}>
+              載入中...
+            </Text>
+          </View>
+        )
       }
       <ScrollView style={style.scrollview}>
         <MatchList matches={matches} toMatch={(match) => {

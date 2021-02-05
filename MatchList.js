@@ -12,7 +12,8 @@ const style = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 50
   }
 });
 

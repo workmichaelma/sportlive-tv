@@ -3,8 +3,8 @@
     "name": "睇波",
     "slug": "sportlive-tv",
     "version": "1.0.0",
-    // "orientation": "landscape",
-    "orientation": "portrait",
+    "orientation": "landscape",
+    // "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
