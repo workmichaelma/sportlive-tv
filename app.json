@@ -25,6 +25,16 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
       },
+      "intentFilters": [
+        {
+          "action": "MAIN",
+          "data": {},
+          "category": [
+            "LEANBACK_LAUNCHER",
+            "LAUNCHER"
+          ]
+        }
+      ],
       "package": "com.workmichaelma.sportlivetv",
       "useNextNotificationsApi": false
     },
